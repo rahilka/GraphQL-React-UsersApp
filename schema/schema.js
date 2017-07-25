@@ -7,11 +7,18 @@
 // and excactly, how each object is related to each other  
 
 const graphql = require('graphql');
+const _ = require('lodash');
 const {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLInt
+	GraphQLInt,
+	GraphQLSchema	//takes in a root quer and returns a graphql schema instance
 } = graphql;
+
+const users = [
+	{ id: '23', firstName: 'Bill', age: 20 },
+	{ id: '47', firstName: 'Samantha', age: 21 }
+];
 
 const UserType = new GraphQLObjectType({	//this object instructs GraphQL about what a user object looks like
 	// required properties: name and fields
@@ -32,8 +39,13 @@ const RootQuery = new GraphQLObjectType({
 			args: { id: { type: GraphQLString } },
 			// Resolve is the most important function of our root query, where we have to actually fetch the data
 			resolve(parentValue, args) {	//purpose: go into the db and find the actual data
-
+				// when an id will be passed, it will be available on the args object
+				return _.find(users, { id: args.id }); //we iterate through the user list and return the user that has an id equal to the passed one
 			}
 		}	//meaning: if you are looking for a user, and you give me an id, I will give you back the user(of UserType)
 	}
+});
+
+module.exports = new GraphQLSchema({
+	query: RootQuery
 });

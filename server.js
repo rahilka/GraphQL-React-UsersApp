@@ -1,5 +1,6 @@
 const express = require('express');
 const expressGraphQL = require('express-graphql');	//this library is like a glue, compatibility layer between GraphQL and Express
+const schema = require('./schema/schema');
 
 const app = express();
 
@@ -9,8 +10,8 @@ const app = express();
 // So, we register expressGraphQL as a middleware
 
 app.use('/graphql', expressGraphQL({	//app.use is how we wire up a middleware to an express app
+	schema,
 	graphiql: true	//'graphiql' = Graphical - development tool
-	schema
 }));
 
 app.listen(4000, () => {

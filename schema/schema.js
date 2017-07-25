@@ -22,3 +22,18 @@ const UserType = new GraphQLObjectType({	//this object instructs GraphQL about w
 		age: { type: GraphQLInt }
 	}
 });
+
+// The purpose of the Root Query is to allow GraphQl to jump on a very specific node in the graph from all of our data
+const RootQuery = new GraphQLObjectType({
+	name: 'RootQueryType',
+	fields: {
+		user: {
+			type: UserType,
+			args: { id: { type: GraphQLString } },
+			// Resolve is the most important function of our root query, where we have to actually fetch the data
+			resolve(parentValue, args) {	//purpose: go into the db and find the actual data
+
+			}
+		}	//meaning: if you are looking for a user, and you give me an id, I will give you back the user(of UserType)
+	}
+});

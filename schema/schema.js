@@ -15,13 +15,25 @@ const {
 	GraphQLSchema	//takes in a root quer and returns a graphql schema instance
 } = graphql;
 
+const CompanyType = new GraphQLObjectType({	
+	name: 'Company',
+	fields: {	
+		id: { type: GraphQLString },	
+		name: { type: GraphQLString },
+		description: { type: GraphQLString }
+	}
+});
+
 const UserType = new GraphQLObjectType({	//this object instructs GraphQL about what a user object looks like
 	// required properties: name and fields
 	name: 'User',
 	fields: {	//tells about all the different properties that a User has
 		id: { type: GraphQLString },	//we are using build in types
 		firstName: { type: GraphQLString },
-		age: { type: GraphQLInt }
+		age: { type: GraphQLInt },
+		company: {
+			type: CompanyType
+		}
 	}
 });
 

@@ -13,7 +13,8 @@ const {
 	GraphQLString,
 	GraphQLInt,
 	GraphQLSchema,	//takes in a root quer and returns a graphql schema instance
-	GraphQLList
+	GraphQLList,
+	GraphQLNonNull
 } = graphql;
 
 const CompanyType = new GraphQLObjectType({	
@@ -79,19 +80,21 @@ const mutation = new GraphQLObjectType({
 	name: 'Mutation',
 	fields: {	//the filed of the mutation describes the operation that is going to make
 		addUser: {
-			type: ,
+			type: UserType,
 			args: {
-				firstName: { type: GraphQLString },
-				age: { type: GraphQLInt },
+				firstName: { type: new GraphQLNonNull(GraphQLString) },	//there must be a nema and an age passed values
+				age: { type: new GraphQLNonNull(GraphQLInt) },
 				companyId: { type: GraphQLString }
 			},
-			resolve() {
-
+			resolve(parentValue, { firstName, age }) {
+				return axios.post('http://localhost:3000/users', { firstName, age })
+					.then(res => res.data);
 			}
 		}
 	}
 })
 
 module.exports = new GraphQLSchema({
-	query: RootQuery
+	query: RootQuery,
+	mutation
 });

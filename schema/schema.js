@@ -18,7 +18,7 @@ const {
 
 const CompanyType = new GraphQLObjectType({	
 	name: 'Company',
-	fields: {	
+	fields: () => ({	
 		id: { type: GraphQLString },	
 		name: { type: GraphQLString },
 		description: { type: GraphQLString },
@@ -29,13 +29,13 @@ const CompanyType = new GraphQLObjectType({
 					.then(resp => resp.data);
 			}
 		}
-	}
+	})	//this is a closure: the function gets defined but is not executed until the entire file is executed
 });
 
 const UserType = new GraphQLObjectType({	//this object instructs GraphQL about what a user object looks like
 	// required properties: name and fields
 	name: 'User',
-	fields: {	//tells about all the different properties that a User has
+	fields: () => ({	//tells about all the different properties that a User has
 		id: { type: GraphQLString },	//we are using build in types
 		firstName: { type: GraphQLString },
 		age: { type: GraphQLInt },
@@ -46,7 +46,7 @@ const UserType = new GraphQLObjectType({	//this object instructs GraphQL about w
 					.then(res => res.data);
 			}
 		}
-	}
+	})
 });
 
 // The purpose of the Root Query is to allow GraphQl to jump on a very specific node in the graph from all of our data
